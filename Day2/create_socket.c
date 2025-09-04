@@ -21,11 +21,8 @@ int main() {
         perror("Socket Failed");    //If socket creation failed,print error message.
         exit(EXIT_FAILURE);
     }
-<<<<<<< HEAD
-    printf("Socket Creation Done!!!\n");    // If socket creation success, print done message.
-=======
+    
     printf("Socket Creation Done !!!\n");    // If socket creation success, print done message.
->>>>>>> e9434d4 (bind socket)
     return 0;
   }
 

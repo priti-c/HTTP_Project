@@ -1,0 +1,250 @@
+Question :- What is HTTP ?
+Answer : HTTP(HyperText Transfer Protocol) 
+1)HTTP is a communication protocol used on the World Wide Web.
+2)An HTTP server delivers web pages (HTML, CSS, JS, etc.) to clients (usually browsers) using the HTTP protocol.
+3)It works on the client-server model:
+	i)Client (browser) sends a request.
+	ii)Server sends back a response.
+4)It is stateless (each request is independent).
+5)Uses TCP/IP (default port 80, HTTPS on 443)
+6)Common request methods: GET, POST, PUT, DELETE.
+7)Versions: HTTP/1.0, 1.1, 2, 3 (increasing speed & efficiency).
+8)HTTPS = HTTP + SSL/TLS for security.
+
+**Example: When you open a website, your browser uses HTTP to fetch web pages from the server.
+
+===========================xoxoxoxoxoxoxoxxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox=======================================================================================
+
+Question :- How HTTP server is created ?
+Answer : 
+Steps to Create an HTTP Server are following :
+1)Create a TCP socket → HTTP runs over TCP (usually port 80, or 8080 for testing).
+2)Bind the socket to the server’s IP and port.
+3)Listen for client requests (browser will connect).
+4)Accept the connection from the client.
+5)Read the HTTP request (GET / POST with headers).
+6)Process the request:
+	   i) Extract requested resource (like /index.html).
+	  ii) Prepare a valid HTTP response (HTTP/1.1 200 OK\r\n...).
+7)Send the HTTP response → Include headers and body (HTML, text, or file).
+8)Close the client connection.
+9)(Optional) Use fork() / threads for multiple clients.
+10)(Optional) Serve dynamic content (current time, IP, etc.).
+
+========================xoxoxoxoxoxoxoxxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox======================================================================================
+
+Question :- What are the requirements of HTTP server?
+Answer : An HTTP server needs networking, request parsing, response sending, file handling, concurrency, error management, and security.
+
+========================xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxxoxoxoxoxoxoxoxo=======================================================================================
+
+Question :- What are the packages installed for HTTP server ?
+Answer : Packages for HTTP Server are following :
+I] Linux/Ubuntu ready-made servers
+	1.apache2 → Apache HTTP Server
+	2.nginx → Nginx Web Server
+	3.lighttpd → Lightweight web server
+II] For C HTTP server (custom code)
+	1.No extra packages needed
+	2.Just GCC compiler + system headers (stdio.h, string.h, unistd.h, arpa/inet.h)
+III] Other languages
+	1.Python → Built-in http.server (no package needed)
+	2.Node.js → Built-in http module (optional: express)
+IV]Development tools (for building)
+	1.build-essential (compiler tools)
+	2.libc6-dev (C standard library headers)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+** Ubuntu Packages to Install for C HTTP Server are following :
+I] Compiler tools
+ > sudo apt install build-essential
+(Installs GCC, G++, Make, etc.)
+II] C library headers (for sockets, stdio, etc.)
+ > sudo apt install libc6-dev
+III] Networking tools (optional, for testing/debugging)
+ > sudo apt install net-tools    # for netstat
+ > sudo apt install curl wget    # to test HTTP server
+ 
+=========================xoxoxoxoxoxoxoxoxoxoxoxxoxoxoxoxoxoxoxoxoxoxoxoxoo===================================================================================================================
+
+Question :- What are the connection required for HTTP server ?
+Answer : I) Underlying Protocol – HTTP uses TCP (Transmission Control Protocol) for reliable data transfer.
+II) Default Ports –
+	i) Port 80 → HTTP (unencrypted)
+	ii) Port 443 → HTTPS (encrypted with SSL/TLS)
+III) Client–Server Connection – A client (e.g., web browser) establishes a TCP connection to the server’s IP address and port.
+IV) Request–Response – Client sends an HTTP request and server replies with an HTTP response over the same TCP connection.
+V) Persistent Connections – With HTTP/1.1 and above, a single TCP connection can handle multiple requests (using Keep-Alive).
+VI) Secure Connection – For HTTPS, a TLS handshake happens before HTTP data is exchanged.
+
+=========================xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox===========================================================================================
+
+Question :- What is the code workflow of HTTP server ?
+Answer : The HTTP code workflow is:
+i) Client opens TCP connection → sends HTTP request.
+ii)Server accepts connection → reads request.
+iii)Server processes request → sends HTTP response.
+iv)Client receives response → displays result.
+v)Connection is closed or reused (keep-alive).
+
+======================xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox==========================================================================================
+
+Question :- What is FTP ?
+Answer : 1)FTP = File Transfer Protocol – used to transfer files between client and server.
+2)Connection type – uses TCP for reliable communication.
+3)Ports – i) Port 21 → Control commands
+	ii) Port 20 / other → Data transfer
+4)Modes – Supports Active and Passive mode for data connection.
+5)Authentication – Usually requires username & password (can allow anonymous login).
+6)Usage – Uploading, downloading, deleting, renaming, or listing files on a remote server.
+7)FTP lets you upload/download files over the internet using two TCP connections (control + data).
+8) An FTP server allows file uploads/downloads using FTP protocol (port 21 for commands, another dynamic port for data transfer).
+
+====================xoxoxoxxoxoxoxoxoxoxoxoxoxoxoxxoxoxoxoxoxoxoxoxoxoxoxxoxoxoxo========================================================================================
+
+Question :- How FTP server is created ? 
+Steps to Create an FTP Server are following :
+1)Create a TCP socket → Bind to port 21 (control connection).
+2)Listen and accept client connections (FTP client like FileZilla will connect).
+3)Authenticate user:
+ 	i) Receive USER <username>
+ 	ii) Receive PASS <password>
+4)Validate credentials.
+5)Enter command loop:
+	i) Receive commands like LIST, RETR, STOR.
+	ii) Parse and process accordingly.
+6)Establish data connection:
+ 	i) For each file transfer, open a separate TCP connection (port chosen dynamically).
+	ii) PORT or PASV commands decide active/passive mode.
+7)Handle FTP commands:
+	i) LIST → send directory listing.
+	ii) RETR <file> → send file to client.
+	iii) STOR <file> → receive file from client.
+	iv) QUIT → close session.
+8)Send FTP response codes (like 220 Service Ready, 530 Login Incorrect, 226 Transfer Complete).
+9)Close connection when client disconnects.
+
+========================xoxoxoxoxoxoxxoxxoxoxoxoxoxoxoxoxoxxoxoxoxoxoxoxoxoxooxoxooxox====================================================================================
+
+Question :- What are requirements of FTP server ?
+Answer : An FTP Server needs System + FTP server software + network + ports + user authentication + storage + security.
+
+====================xoxoxoxoxoxoxoxxoxxoxoxoxoxoxoxxoxoxoxxoxoxoxoxoxoxoxoxoxoxxox========================================================================================
+
+Question :- What are the packages installed for FTP server ?
+Answer : packages needed for an FTP server (depends on OS):
+A] On Linux (Ubuntu/Debian):
+	i) vsftpd – Very Secure FTP Daemon (most common).
+	ii) proftpd – Another popular FTP server.
+	iii) pure-ftpd – Lightweight and simple option.
+	iv) openssl – For FTPS (secure FTP with TLS/SSL).
+	v) ufw / iptables – For firewall configuration.
+B] On RedHat/CentOS/Fedora:
+	i) vsftpd (default FTP server).
+	ii) proftpd or pure-ftpd (optional).
+	iii) openssl for encryption.
+	iv) firewalld for firewall rules.
+C] On Windows:
+	i) FileZilla Server package (free & easy).
+	ii) IIS FTP Server (comes with Windows Server).
+	
+====================xoxoxoxoxoxoxoxoxoxoxoxoxoxxoxoxoxoxxooxoxoxoxxoxoxoxxooxxoxoxo=======================================================================================
+
+Question :- What are the connection required for FTP server ?
+Answer : FTP server connections are following :
+i) Port 21 (Control connection) → For commands.
+ii) Port 20 / random port (Data connection) → For file transfer.
+iii) Active mode → Server uses port 20.
+iv) Passive mode → Server uses random high port (>1024).
+
+=====================xoxoxoxoxoxoxoxoxxoxoxoxxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo======================================================================================
+
+Question :- What is the code workflow of FTP server ?
+Answer : Here’s the code workflow of an FTP server :
+i) Create socket → socket()
+ii) Bind socket → to port 21 (control connection)
+iii) Listen & accept client → listen(), accept()
+iv) Authenticate user → username & password check
+v) Wait for commands → LIST, GET, PUT, QUIT etc.
+vi) Open data connection → (Port 20 in active / random port in passive)
+vii) Transfer files → send/receive data
+viii) Close data connection after transfer.
+ix) Close control connection when client quits.
+
+=======================xoxoxoxoxoxoxoxoxoxxoxoxoxoxxoxoxoxoxxoxoxoxoxoxoxoxoxoxoxoxoxo===========================================================================================
+
+Question :- What is Git Branching ?
+Answer : i) A pointer to a specific commit in Git history.
+ii) Default branch: Usually main or master when you create a repo.
+iii) Branches in Git let multiple people work independently on features/bugs without interfering with the main code.
+
+====================xoxoxoxoxoxoxxoxoxoxxooxxoxoxoxoxoxoxoxoxoxxoxoxoxxoxoxoxoxoxoxoxoxo==========================================================================================
+
+Question :- What is create branch in Git?
+Answer :
+A] Definition: Creating a branch in Git means making a new pointer to a commit, so you can work on changes separately from the main branch. 
+B] Purpose: i) Isolate features, bug fixes, or experiments.
+	  ii)Avoid breaking the main (main/master) branch.
+	 iii)Enable team collaboration (everyone can work on their own branch).
+C] How it works: i) A branch is basically a label pointing to the latest commit.
+	     ii) When you commit new changes, the branch pointer moves forward.
+
+==============================xoxoxoxoxoxoxoxxoxoxxxoxxoxoxxoxoxoxoxoxxoxoxo=======================================================================================================
+
+Question :- Write a command for create branch in git.
+Answer : The command to create a new branch in Git is:
+ > git branch branch_name        // This only creates the branch but does not switch to it
+ 
+  ========================xoxoxoxxoxoxxoxoxoxoxxoxoxooxxooxoxxoxoxxoxoxox==============================================================================================================
+ 
+ Question :- What is workflow of Git branch ?
+ Answer : i) Create branch.
+ii) Work & commit changes.
+iii) Push branch to remote.
+iv) Merge via pull request (or git merge).
+v) Delete branch after merging.
+
+====================xoxoxoxoxoxoxxoxoxoxoxxoxoxoxxoxoxoxxoxoxoxoxxoxoxoxxo==========================================================================================================
+
+Question :- How code verify and merge multiple branches to main ? 
+Answer : 1. Verify Code in Branches : Before merging, you must check that the branch code is correct and does not break the project.
+i)Switch to branch & test :
+ > git checkout branch_name      // Run tests, build code, and check if everything works.
+ii)View changes made in branch :
+ > git diff main..branch_name  // Shows what is different between main and branch_name.
+iii) Check commit history
+ > git log --oneline --graph --all   // Visualizes commits across branches.
+ 
+ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+ 2. Merge Branches : After verification, you merge the branch into your target branch (often main).
+Step A: Switch to target branch
+ > git checkout main
+Step B: Merge feature branch into it
+ > git merge branch_name
+
+i) If no conflict → Git merges automatically.
+ii) If conflict → Git will pause and ask you to manually resolve conflicts.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 3. Resolve Merge Conflicts (if any) : If the same file was edited in both branches:
+i) Git marks conflicts in the file like this:
+<<<<<<< HEAD
+code from main
+=======
+code from branch
+>>>>>>> branch_name
+
+ii)Edit manually to keep the correct code.
+iii)Mark conflict as resolved:
+ > git add conflicted_file
+ > git commit
+ 
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+ 4. Delete Branch After Merge (optional but good practice)
+ > git branch -d branch_name
+(or -D for force delete)
+
+=================================xoxoxoxoxoxoxoxxoxxoxoxoxoxoxoxoxoxoxxoxoxoooxxoxoxoxoxox===================================================================================================
+

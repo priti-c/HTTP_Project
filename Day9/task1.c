@@ -73,11 +73,7 @@ int main() {
     printf("Connection Time: %s\n",time_str);
 
     printf("-----------------------\n");
-
-//Handle the client's request          
-            handle_client(client_fd);
-            exit(0);     //End child process
-        }
+    }
 
 //Parent process closes client socket(handled by child)
         close(client_fd); 

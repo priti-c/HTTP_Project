@@ -1,4 +1,4 @@
-// Day 4: Fork-based HTTP Server :Task1 : Show process details for each client.
+// Day 4: Fork-based HTTP Server : Task1 : Show process details for each client.
 #include <stdio.h>   //printf(),perror()
 #include <stdlib.h>  //exit()
 #include <string.h>  //strlen()
@@ -7,46 +7,6 @@
 #include<time.h>   //time(),localtime(),strftime()
 
 #define PORT 8080
-
-//Function to handle each client request
-    void handle_client(int client_fd) {
-	    char buffer[1024];
-	    ssize_t bytes_read;   //ssize_t : Used  for a count of bytes or an error indication. 
-    while(1){
-	    memset(buffer,0,sizeof(buffer));     //fill memory with a constant byte
-    // void *memset(void *s, int c, size_t n);
-
-//Read data from clients
-	bytes_read = read(client_fd,buffer,sizeof(buffer) - 1);  //read from a file descriptor
-  // ssize_t read(int fd, void *buf, size_t count);
-  
-	if(bytes_read <= 0){
-		printf("Client is disconnected.\n");
-		break;     //client closes connection
-	}
-
-//Remove trailing new line
- 	buffer[strcspn(buffer, "\r\n")] = 0;
-	
-	printf("Received from client : %s\n",buffer);
-
-//If client says "exit ", close the connection
-	if(strcasecmp(buffer, "exit") == 0){
-		printf("Client is requesting to close the connection.\n");
-		break;
-	}
-
-//Prepare HTTP response	
-    char response[] = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n"
-                      "<html><body><h1>Hello from Forked Server!</h1></body></html>";
-    
-//send response to client
-    write(client_fd, response, strlen(response));
-}    
-
-//close client connection    
-    close(client_fd);
-}
 
 int main() {
     int server_fd, client_fd;

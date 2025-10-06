@@ -1,4 +1,4 @@
-// Day 4: Fork-based HTTP Server :Task1 : Show process details for each client.
+// Day 4: Fork-based HTTP Server.
 #include <stdio.h>   //printf(),perror()
 #include <stdlib.h>  //exit()
 #include <string.h>  //strlen()

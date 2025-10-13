@@ -1,4 +1,4 @@
-// http_file_server.c 
+// http_file_server.c : Task4 : Support different file types
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

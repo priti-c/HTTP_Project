@@ -1,4 +1,4 @@
-// http_file_server.c : Task3: Map URL -> File
+// http_file_server.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

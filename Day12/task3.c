@@ -48,8 +48,6 @@ void send_file(int client_fd, const char *filename) {
     send_file(client_fd, filename);
 }
 
-
-
 int main() {
     int server_fd, client_fd;
     struct sockaddr_in address;

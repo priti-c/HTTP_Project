@@ -19,19 +19,21 @@
 #define MAX_HOST_LEN 256
 #define MAX_QUERY_LEN 256
 
-ssize_t recv_all_headers(int fd, char *buf, size_t cap, int *recv_calls) {
+// Read until end of HTTP headers (\r\n\r\n) or buffer full
+ssize_t recv_all_headers(int fd, char *buf, size_t cap,int *recv_calls) {
     size_t used = 0;
     *recv_calls = 0;
     while (used + 1 < cap) {
         ssize_t n = recv(fd, buf + used, cap - used - 1, 0);
         (*recv_calls)++;
         if (n <= 0) {
-            return n; 
+            return n;  // error or client closed
         }
         used += (size_t)n;
         buf[used] = '\0';
+        printf("Raw request so far :\n%s\n",buf);
         if (strstr(buf, "\r\n\r\n")) {
-            break; 
+            break; // end of headers
         }
     }
     return (ssize_t)used;
@@ -60,7 +62,6 @@ void extract_host(char *req, char *host, size_t host_len) {
         host[0] = '\0';
     }
 }
-
 void extract_query(char *path, char *query, size_t query_len) {
     char *query_start = strchr(path, '?');
     if (query_start) {
@@ -71,7 +72,6 @@ void extract_query(char *path, char *query, size_t query_len) {
         query[0] = '\0';
     }
 }
-
 void handle_request(int c, char *req) {
     char method[8], path[512], version[16];
     method[0] = path[0] = version[0] = '\0';
@@ -109,7 +109,7 @@ void handle_request(int c, char *req) {
             strftime(time_buf, sizeof(time_buf), "%Y-%m-%d %H:%M:%S\n", tm);
             body = time_buf;
         } else if (strncmp(path, "/search", 7) == 0) {
-            body = "Search results...\n";
+            body = "Search results are found...\n";
         } else {
             body = "Unknown Path!\n";
         }
@@ -123,7 +123,6 @@ void handle_request(int c, char *req) {
         send(c, body, strlen(body), 0);
     }
 }
-
 int main(void) {
     int s = socket(AF_INET, SOCK_STREAM, 0);
     if (s < 0) {
@@ -166,14 +165,14 @@ int main(void) {
 
         char req[8192];
         int recv_calls = 0;
-        ssize_t n = recv_all_headers(c, req, sizeof(req), &recv_calls);
+        ssize_t n = recv_all_headers(c, req, sizeof(req),&recv_calls);
         if (n <= 0) {
             close(c);
             continue;
         }
-
-        printf("Number of recv() calls: %d\n"recv() calls: %d\n", recv_calls);
-        handle_request(c, req);
+        printf("Number of recv() calls : %d\n",recv_calls);
+        handle_request(c,req);
         close(c);
     }
 }
+
